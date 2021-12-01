@@ -32,7 +32,7 @@ netconf_ospf1 = '''
                         <router-id>1.1.1.1</router-id>
                         <network>
                             <ip>10.0.0.0</ip>
-                            <mask>0.0.0.255</mask>
+                            <mask>0.5.0.255</mask>
                             <area>0</area>
                         </network>
                     </ospf>
@@ -50,7 +50,7 @@ netconf_ospf2 = '''
                         <router-id>2.2.2.2</router-id>
                         <network>
                             <ip>10.0.0.0</ip>
-                            <mask>0.0.0.255</mask>
+                            <mask>0.5.0.255</mask>
                             <area>0</area>
                         </network>
                     </ospf>
