@@ -1,0 +1,10 @@
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet1       192.168.56.102  YES DHCP   up                    up      
+GigabitEthernet2       192.168.148.101 YES NVRAM  up                    up      
+GigabitEthernet3       192.168.157.101 YES NVRAM  up                    up      
+Loopback0              10.0.0.1        YES manual up                    up      
+Loopback1              10.1.0.1        YES manual up                    up      
+Loopback2              10.2.0.1        YES manual up                    up      
+Loopback3              10.3.0.1        YES manual up                    up      
+Loopback4              10.4.0.1        YES manual up                    up      
+Loopback5              10.5.0.1        YES manual up                    up

@@ -8,7 +8,7 @@
       - name: Loopback Interface Configuration
         ios_config:
            lines:
-             - ip address 10.{{ item }}.0.1 255.255.255.0
+             - ip address 10.{{ item }}.0.2 255.255.255.0
            parents: 
              - int lo{{ item }}
         loop:

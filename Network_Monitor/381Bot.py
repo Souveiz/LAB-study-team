@@ -2,6 +2,8 @@ import threading
 import time
 import json
 import requests
+import os
+import yaml
 
 # To build the table at the end
 from tabulate import tabulate
@@ -36,7 +38,7 @@ headers = {'Content-Type': 'application/yang-data+json',
 # Bot Details
 bot_email = 'bigboiahoy@webex.bot' #Fill in your Teams Bot email#
 teams_token = 'Yjk4OGIyMTUtNTZlZC00M2VjLThjMzgtZmRlOTUwMTgzZTgyMmI3OTUxY2UtZTJi_P0A1_d6bae168-94e6-4bfa-95a0-88365138f260' #Fill in your Teams Bot Token#
-bot_url = "https://8942-144-13-254-60.ngrok.io" #Fill in the ngrok forwarding address#
+bot_url = "https://b42e-144-13-254-36.ngrok.io" #Fill in the ngrok forwarding address#
 bot_app_name = 'CNIT-381 Network Auto Chat Bot'
 
 # Create a Bot Object
@@ -54,6 +56,14 @@ bot = TeamsBot(
 
 # Create a function to respond to messages that lack any specific command
 # The greeting will be friendly and suggest how folks can get started.
+
+def loopback(incoming_msg):
+    response = Response()
+    os.system('ansible-playbook -i ./inventory Loopbacks.yaml')
+    os.system('ansible-playbook -i ./inventory1 Loopbacks1.yaml')
+    response.text = "The interfaces have been created"
+    return response
+
 def greeting(incoming_msg):
     # Loopkup details about sender
     sender = bot.teams.people.get(incoming_msg.personId)
@@ -226,6 +236,7 @@ bot.add_command("check interface", "This job will look down interfaces", check_i
 bot.add_command("monitor interfaces", "This job will monitor interface status in back ground", monitor_int)
 bot.add_command("stop monitoring", "This job will stop all monitor job", stop_monitor)
 bot.add_command("show cdp", "This job will stop all monitor job", useless.showcdp)
+bot.add_command("create loopback", "This job will stop all monitor job", loopback)
 # Every bot includes a default "/echo" command.  You can remove it, or any
 bot.remove_command("/echo")
 

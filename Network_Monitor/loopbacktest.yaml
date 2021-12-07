@@ -1,0 +1,39 @@
+---
+- name: Configure Loopback interfaces
+  hosts: routers
+  gather_facts: false
+  connection: network_cli
+ 
+  tasks:
+    - name: Loopback loop
+      ios_config:
+        lines:
+          - ip address {{ item.address }}
+        parents: interface {{ item.interface }}
+  
+      loop:
+        - { interface: "Loopback0", address: "10.0.0.1 255.255.255.0" }
+        - { interface: "Loopback1", address: "10.1.0.1 255.255.255.0" }
+        - { interface: "Loopback2", address: "10.2.0.1 255.255.255.0" }
+        - { interface: "Loopback3", address: "10.3.0.1 255.255.255.0" }
+        - { interface: "Loopback4", address: "10.4.0.1 255.255.255.0" }
+        - { interface: "Loopback5", address: "10.5.0.1 255.255.255.0" }
+
+        
+    - name: show ip interface brief
+      ios_command: #ansible module
+        commands: #commands to run
+          - show ip interface brief
+      
+      register: output
+    - name: Save output to file on disk
+      copy:
+          content: "{{ output.stdout[0] }}"
+          dest: "{{inventory_hostname}}-show_ip_brief.txt"
+
+      
+ 
+
+
+ 
+

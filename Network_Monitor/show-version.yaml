@@ -1,0 +1,25 @@
+---
+- name: Show version
+  hosts: routers
+  gather_facts: false
+  connection: network_cli
+  
+  tasks:
+    - name: show version
+      ios_command: #ansible module
+        commands: #commands to run
+          - show version
+      
+      register: output
+    - name: Save output to file on disk
+      copy:
+          content: "{{ output.stdout[0] }}"
+          dest: "{{inventory_hostname}}.txt"
+
+      
+ 
+
+
+ 
+
+
