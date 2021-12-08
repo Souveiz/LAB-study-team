@@ -205,6 +205,42 @@ def monitor_int_job(incoming_msg):
 
     return response
 
+def monitor_bgp(incoming_msg):
+    """Monitor interfaces in a thread
+    """
+    response = Response()
+    response.text = "Monitoring bgp...\n\n"
+    monitor_bgp_job(incoming_msg)
+    th = threading.Thread(target=monitor_bgp_job, args=(incoming_msg,))
+    threads.append(th)  # appending the thread to the list
+
+    # starting the threads
+    for th in threads:
+        th.start()
+
+    # waiting for the threads to finish
+    for th in threads:
+        th.join()
+
+    return response
+
+def monitor_bgp_job(incoming_msg):
+    response = Response()
+    msgtxt_old=""
+    global exit_flag
+    while exit_flag == False:
+        msgtxt = check_bgp(incoming_msg)
+        if msgtxt_old != msgtxt:
+            print(msgtxt.text)
+            useless.create_message(incoming_msg.roomId, msgtxt.text)
+        msgtxt_old = msgtxt
+        time.sleep(20)
+
+    print("exited thread")
+    exit_flag = False
+
+    return response
+
 def stop_monitor(incoming_msg):
     """Monitor interfaces in a thread
     """
@@ -234,6 +270,7 @@ bot.add_command("time", "Look up the current time", useless.current_time)
 bot.add_command("check bgp", "This job checks that all BGP neighbors are in Established state", check_bgp)
 bot.add_command("check interface", "This job will look down interfaces", check_int)
 bot.add_command("monitor interfaces", "This job will monitor interface status in back ground", monitor_int)
+bot.add_command("monitor bgp", "This job will monitor bgp status in back ground", monitor_bgp)
 bot.add_command("stop monitoring", "This job will stop all monitor job", stop_monitor)
 bot.add_command("show cdp", "This job will stop all monitor job", useless.showcdp)
 bot.add_command("create loopback", "This job will stop all monitor job", loopback)
